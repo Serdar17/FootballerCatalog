@@ -1,0 +1,67 @@
+﻿@model Web.Dto.PlayerDto
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <form method="post" asp-controller="Home" asp-action="Edit">
+            <h2 class="row justify-content-center">Редактирование игрока</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-floating">
+                <input asp-for="FirstName" class="form-control" placeholder="Имя" aria-required="true" value=@Model.FirstName/>
+                <label asp-for="FirstName">Имя</label>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating">
+                <input asp-for="SecondName" value=@Model.SecondName class="form-control" placeholder="Фамилия" aria-required="true" />
+                <label asp-for="SecondName">Фамилия</label>
+                <span asp-validation-for="SecondName" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating">
+                <select asp-for="Sex" id="countries" class="form-control" aria-valuenow=@Model.Sex>
+                    <option value="Мужской">Мужской</option>
+                    <option value="Женский">Женский</option>
+                </select>
+                <label asp-for="Sex">Пол</label>
+                <span asp-validation-for="Sex" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating">
+                <input class="form-control" asp-for="BirthDate" type="date" value="@Model.BirthDate.ToString("yyyy-MM-dd")" aria-required="true"/>
+                <label asp-for="BirthDate">Дата рождения</label>
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="TeamName" value=@Model.TeamName class="form-control" list="datalistOptions" aria-required="true" placeholder="Название команды">
+                <label asp-for="TeamName">Название команды</label>
+                <datalist id="datalistOptions">
+                    @foreach (var name in Model.TeamNames)
+                    {
+                        <option value=@name>@name</option>
+                    }
+                </datalist>
+                <span asp-validation-for="TeamName" class="text-danger"></span>
+            </div>
+            
+            <div class="form-floating">
+                <select asp-for="Country" id="countries" class="form-control" aria-valuenow=@Model.Country>
+                    <option value="Россия">Россия</option>
+                    <option value="США">США</option>
+                    <option value="Италия">Италия</option>
+                </select>
+                <label asp-for="Country">Выберите страну: </label>
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>
+            
+            <div class="group justify-content-center">
+                <button id="registerSubmit" type="submit" value="Create" class="btn btn-outline-success save-btn">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>

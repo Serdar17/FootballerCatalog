@@ -1,0 +1,68 @@
+﻿@model Web.Dto.PlayerDto
+@{
+    ViewData["Title"] = "Player";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <form method = "post" asp-controller = "Home" asp-action = "Create">
+            <h2 class="row justify-content-center">Создайте игрока</h2>
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-floating">
+                <input asp-for="FirstName" class="form-control" placeholder="Имя" />
+                <label asp-for="FirstName">Имя</label>
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-floating">
+                <input asp-for="SecondName" class="form-control" placeholder="Фамилия" />
+                <label asp-for="SecondName">Фамилия</label>
+                <span asp-validation-for="SecondName" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating">
+                <select asp-for="Sex" id="countries" class="form-control" aria-label="Default select example">
+                    <option selected>Мужской</option>
+                    <option value="Женский">Женский</option>
+                </select>
+                <label asp-for="Sex">Пол</label>
+                <span asp-validation-for="Sex" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating">
+                <input class="form-control" asp-for="BirthDate" type="date" value="2001-01-01" aria-required="true"/>
+                <label asp-for="BirthDate">Дата рождения</label>
+                <span asp-validation-for="BirthDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating">
+                <input asp-for="TeamName" class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Название команды">
+                <label asp-for="TeamName">Название команды</label>
+                <datalist id="datalistOptions">
+                    @foreach (var name in Model.TeamNames)
+                    {
+                        <option value=@name>@name</option>
+                    }
+                </datalist>
+                <span asp-validation-for="TeamName" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating">
+                <select asp-for="Country" id="countries" class="form-control" aria-label="Default select example">
+                    <option value="Россия">Россия</option>
+                    <option value="США">США</option>
+                    <option value="Италия">Италия</option>
+                </select>
+                <label asp-for="Country">Выберите страну: </label>
+                <span asp-validation-for="Country" class="text-danger"></span>
+            </div>  
+            
+            <div class="group justify-content-center">
+                <button id="registerSubmit" type="submit" value="Create" class="btn btn-outline-primary btn-md create-btn">Создать</button>
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+        

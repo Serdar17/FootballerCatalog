@@ -1,0 +1,69 @@
+﻿@model List<Player> 
+@{
+    ViewData["Title"] = "Создать игрока";
+    
+}
+<h2 class="text-center">Каталог футболистов</h2>
+
+<div class="container">
+    <div class="row" id="players">
+        @for (var i = 0; i < Model.Count; i++)
+        {
+            <div class="col-md-4">
+                <div class="card bg-light mb-3">
+                    <div class="card-header">Игрок №@(i + 1)</div>
+                    <div class="card-body">
+                        <h5 class="card-title">@Model[i].FirstName @Model[i].SecondName</h5>
+                        <p class="card-text">Пол: @Model[i].Sex</p>
+                        <p class="card-text">Дата рождения: @Model[i].BirthDate.ToString("dd.MM.yyyy")</p>
+                        <p class="card-text">Команда: @Model[i].TeamName</p>
+                        <p class="card-text">Страна: @Model[i].Country</p>
+                        <div class="group">
+                            <a href="edit/@Model[i].Id" class="btn btn-outline-info">Изменить</a>
+                            <a href="delete/@Model[i].Id" class="btn btn-outline-danger delete-btn ">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<script src="js/signalr/dist/browser/signalr.js"></script>
+<script>
+    const players = document.querySelector("#players");
+    
+    let hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/players")
+        .build();
+    
+    hubConnection.on("Send", function (data) {
+        console.log(data)
+        createPlayerList(data);
+    });
+    
+    function createPlayerList(data){
+        let index = 1;
+        while (players.firstChild) {
+            players.removeChild(players.lastChild);
+        }
+        players.innerHTML += data.map(item =>`
+<div class="col-md-4">
+    <div class="card bg-light mb-3">
+        <div class="card-header">Игрок №${index++}</div>
+        <div class="card-body">
+            <h5 class="card-title">${item.firstName} ${item.secondName}</h5>
+            <p class="card-text">Пол: ${item.sex}</p>
+            <p class="card-text">Дата рождения: ${item.birthDate.slice(8,10)}.${item.birthDate.slice(5,7)}.${item.birthDate.slice(0,4)}</p>
+            <p class="card-text">Команда: ${item.teamName}</p>
+            <p class="card-text">Страна: ${item.country}</p>
+            <div class="group">
+                <a href="edit/${item.id}" class="btn btn-outline-info">Изменить</a>
+                <a href="delete/${item.id}" class="btn btn-outline-danger delete-btn ">Удалить</a>
+            </div>
+        </div>
+    </div>
+</div>`).join('');
+    }
+
+    hubConnection.start();
+</script>
